@@ -1,0 +1,11 @@
+{
+  "name": "food_with_friends",
+  "version": "0.0.1",
+  "description": "Food with Friends is an application you to split your food or grocery delivery orders with ease!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Lee and Garrett Holly",
+  "license": "MIT"
+}
