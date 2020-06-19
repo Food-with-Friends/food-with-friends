@@ -1,0 +1,9 @@
+.theme-dark {
+    --background-primary: #000000;
+    --background-secondary: #121212;
+    --border-color: #bb86fc;
+}
+
+.theme-light {
+    --background-primary: ;
+}

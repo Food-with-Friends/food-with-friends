@@ -1,0 +1,25 @@
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid rgb(255, 255, 255, 1);
+}
+
+.Header-title {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.Navigation-buttons {
+    background-color: #141414;
+    border: none;
+    margin-left: 2px;
+    color: #bb86fc;
+    display: inline-block;
+}
+
+ul li {
+    list-style: none;
+    display: inline;
+    margin: 0px 12px 0px 0px;
+}
