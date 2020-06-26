@@ -3,7 +3,7 @@ import { Logger, InternalServerErrorException } from '@nestjs/common';
 import { genSalt, hash } from 'bcrypt';
 import { Order } from './order.entity';
 import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 @EntityRepository(Order)

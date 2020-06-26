@@ -2,12 +2,11 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderRepository } from './order.repository';
 import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 

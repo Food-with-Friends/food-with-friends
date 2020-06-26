@@ -7,7 +7,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { hash } from 'bcrypt';
-import { Order } from 'src/orders/order.entity';
+import { Order } from '../orders/order.entity';
 import { Exclude, classToPlain } from 'class-transformer';
 
 @Entity()
