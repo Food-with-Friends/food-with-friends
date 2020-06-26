@@ -5,9 +5,11 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { hash } from 'bcrypt';
 import { User } from '../auth/user.entity';
+import { Fee } from '../fees/fee.entity';
 import { Exclude, classToPlain } from 'class-transformer';
 
 @Entity()
@@ -30,9 +32,8 @@ export class Order extends BaseEntity {
   @JoinTable()
   payees: User[];
 
-  // TODO: Implement Fee
-  // @OneToMany((type) => Fee, (fee) => fee.order, { eager: true })
-  // fees: Fee[];
+  @OneToMany((type) => Fee, (fee) => fee.order, { eager: true, cascade: true })
+  fees: Fee[];
 
   // TODO: Implement Cart
   // @OneToMany((type) => Cart, (cart) => cart.order, { eager: true })

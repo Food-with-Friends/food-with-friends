@@ -58,15 +58,16 @@ export class OrdersController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({ transform: true }))
   createOrder(
     @Body() createOrderDto: CreateOrderDto,
     @GetUser() user: User,
   ): Promise<Order> {
     this.logger.verbose(
-      `User "${user.username}" creating a new task. Data: ${JSON.stringify(
-        createOrderDto,
-      )}`,
+      `User "${user.username}" creating a new order. Data: ${JSON.stringify({
+        title: createOrderDto.title,
+        fees: createOrderDto.fees,
+      })}`,
     );
     return this.ordersService.createOrder(createOrderDto, user);
   }
