@@ -14,8 +14,8 @@ import { OrdersModule } from './orders/orders.module';
       envFilePath: [__dirname + '/../../.env'],
     }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
-    AuthModule,
     OrdersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

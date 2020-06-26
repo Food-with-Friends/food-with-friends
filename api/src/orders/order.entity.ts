@@ -7,7 +7,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { hash } from 'bcrypt';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { Exclude, classToPlain } from 'class-transformer';
 
 @Entity()
