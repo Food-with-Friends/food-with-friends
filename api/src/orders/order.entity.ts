@@ -1,23 +1,22 @@
 import {
-  BaseEntity,
   Entity,
+  BaseEntity,
   PrimaryGeneratedColumn,
   Column,
-  Unique,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { hash } from 'bcrypt';
-import { Order } from 'src/orders/order.entity';
+import { User } from 'src/auth/user.entity';
 import { Exclude, classToPlain } from 'class-transformer';
 
 @Entity()
-@Unique(['username'])
-export class User extends BaseEntity {
+export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  username: string;
+  title: string;
 
   @Column()
   @Exclude({ toPlainOnly: true })
@@ -27,14 +26,16 @@ export class User extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   salt: string;
 
-  @Column({ nullable: true })
-  email: string;
+  @ManyToMany((type) => User, (user) => user.orders, { cascade: true })
+  @JoinTable()
+  payees: User[];
 
-  @ManyToMany((type) => Order, (order) => order.payees)
-  orders: Order[];
+  // TODO: Implement Fee
+  // @OneToMany((type) => Fee, (fee) => fee.order, { eager: true })
+  // fees: Fee[];
 
   // TODO: Implement Cart
-  // @OneToMany((type) => Cart, (cart) => cart.user, { eager: true })
+  // @OneToMany((type) => Cart, (cart) => cart.order, { eager: true })
   // carts: Cart[];
 
   toJSON(): any {
@@ -42,7 +43,7 @@ export class User extends BaseEntity {
   }
 
   async validatePassword(password: string): Promise<boolean> {
-    const userHash = await hash(password, this.salt);
-    return userHash === this.password;
+    const orderHash = await hash(password, this.salt);
+    return orderHash === this.password;
   }
 }
