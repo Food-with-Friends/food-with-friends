@@ -5,7 +5,8 @@ import { Order } from './order.entity';
 import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
 import { User } from '../auth/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { FeesService } from 'src/fees/fees.service';
+import { FeesService } from '../fees/fees.service';
+import { CartsService } from '../carts/carts.service';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
@@ -16,7 +17,9 @@ export class OrderRepository extends Repository<Order> {
     const query = this.createQueryBuilder('order');
     query
       .leftJoinAndSelect('order.payees', 'user')
-      .leftJoinAndSelect('order.fees', 'fees');
+      .leftJoinAndSelect('order.fees', 'fees')
+      .leftJoinAndSelect('order.carts', 'carts')
+      .leftJoinAndSelect('carts.cartItems', 'cartItems');
 
     if (search) {
       query.where('(order.title LIKE :search)', { search: `%${search}%` });
@@ -40,10 +43,17 @@ export class OrderRepository extends Repository<Order> {
     createOrderDto: CreateOrderDto,
     user: User,
     feesService: FeesService,
+    cartsService: CartsService,
   ): Promise<Order> {
-    const { title, password, fees: createFeeDtos } = createOrderDto;
+    const {
+      title,
+      password,
+      fees: createFeeDtos,
+      carts: createCartDtos,
+    } = createOrderDto;
 
     const fees = await feesService.createFees(createFeeDtos);
+    const carts = await cartsService.createCarts(createCartDtos);
 
     const order = new Order();
     order.title = title;
@@ -51,6 +61,7 @@ export class OrderRepository extends Repository<Order> {
     order.password = await this.hashPassword(password, order.salt);
     order.payees = [user];
     order.fees = fees;
+    order.carts = carts;
 
     try {
       await order.save();
