@@ -4,7 +4,6 @@ import {
   MaxLength,
   IsNumber,
   IsBoolean,
-  IsDecimal,
 } from 'class-validator';
 
 export class CreateFeeDto {

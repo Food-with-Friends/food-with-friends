@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 import { CreateFeeDto } from '../../fees/dto/create-fee-dto';
 import { Type } from 'class-transformer';
+import { CreateCartDto } from '../../carts/dto/create-cart-dto';
 
 export class CreateOrderDto {
   @IsString()
@@ -25,4 +26,8 @@ export class CreateOrderDto {
   @ValidateNested({ each: true })
   @Type(() => CreateFeeDto)
   fees: CreateFeeDto[];
+
+  @ValidateNested({ each: true })
+  @Type(() => CreateCartDto)
+  carts: CreateCartDto[];
 }

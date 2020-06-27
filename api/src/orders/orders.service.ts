@@ -10,6 +10,7 @@ import { User } from '../auth/user.entity';
 import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FeesService } from '../fees/fees.service';
+import { CartsService } from '../carts/carts.service';
 
 @Injectable()
 export class OrdersService {
@@ -17,6 +18,7 @@ export class OrdersService {
     @InjectRepository(OrderRepository)
     private orderRepository: OrderRepository,
     private feesService: FeesService,
+    private cartsService: CartsService,
   ) {}
 
   getOrders(filterDto: GetOrdersFilterDto, user: User): Promise<Order[]> {
@@ -58,6 +60,7 @@ export class OrdersService {
       createOrderDto,
       user,
       this.feesService,
+      this.cartsService,
     );
   }
 }
