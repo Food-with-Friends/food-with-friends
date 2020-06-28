@@ -5,6 +5,7 @@ import { Order } from './order.entity';
 import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
 import { User } from '../auth/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 import { FeesService } from '../fees/fees.service';
 import { CartsService } from '../carts/carts.service';
 
@@ -67,7 +68,81 @@ export class OrderRepository extends Repository<Order> {
       await order.save();
     } catch (error) {
       this.logger.error(
-        `Failed to create task for user "${user.id}, order "${order.title}"`,
+        `Failed to create order for user "${user.id}, order "${order.title}"`,
+        error.stack,
+      );
+      throw new InternalServerErrorException();
+    }
+
+    return order;
+  }
+
+  async updateOrder(
+    order: Order,
+    updateOrderDto: UpdateOrderDto,
+    user: User,
+    feesService: FeesService,
+    cartsService: CartsService,
+  ): Promise<Order> {
+    const {
+      title,
+      payees,
+      feesToDelete,
+      feesToUpdate,
+      feesToAdd,
+      cartsToDelete,
+      cartsToUpdate,
+      cartsToAdd,
+    } = updateOrderDto;
+
+    const modifiedFeeIds = new Set([
+      ...feesToUpdate.map((fee) => fee.id),
+      ...feesToDelete,
+    ]);
+    let originalFeesToKeep = [];
+    if (order.fees) {
+      originalFeesToKeep = order.fees?.filter(
+        (fee) => !modifiedFeeIds.has(fee.id),
+      );
+    }
+    const fees = [
+      ...originalFeesToKeep,
+      ...(await feesService.updateFees(feesToUpdate)),
+      ...(await feesService.createFees(feesToAdd)),
+    ];
+    if (feesToDelete.length > 0) {
+      await feesService.deleteFees(feesToDelete);
+    }
+
+    const modifiedCartIds = new Set([
+      ...cartsToUpdate.map((cart) => cart.id),
+      ...cartsToDelete,
+    ]);
+    let originalCartsToKeep = [];
+    if (order.carts) {
+      originalCartsToKeep = order.carts?.filter(
+        (cart) => !modifiedCartIds.has(cart.id),
+      );
+    }
+    const carts = [
+      ...originalCartsToKeep,
+      ...(await cartsService.updateCarts(order.carts, cartsToUpdate)),
+      ...(await cartsService.createCarts(cartsToAdd)),
+    ];
+    if (cartsToDelete.length > 0) {
+      await cartsService.deleteCarts(cartsToDelete);
+    }
+
+    order.title = title;
+    order.payees = payees;
+    order.fees = fees;
+    order.carts = carts;
+
+    try {
+      await order.save();
+    } catch (error) {
+      this.logger.error(
+        `Failed to update order for user "${user.id}, order "${order.title}"`,
         error.stack,
       );
       throw new InternalServerErrorException();
