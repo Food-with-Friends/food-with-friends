@@ -11,8 +11,8 @@ import { CreateCartDto } from '../../carts/dto/create-cart-dto';
 
 export class CreateOrderDto {
   @IsString()
-  @MinLength(4)
-  @MaxLength(20)
+  @MinLength(1)
+  @MaxLength(40)
   title: string;
 
   @IsString()

@@ -11,6 +11,7 @@ import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FeesService } from '../fees/fees.service';
 import { CartsService } from '../carts/carts.service';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -58,6 +59,21 @@ export class OrdersService {
   ): Promise<Order> {
     return this.orderRepository.createOrder(
       createOrderDto,
+      user,
+      this.feesService,
+      this.cartsService,
+    );
+  }
+
+  async updateOrder(
+    id: number,
+    updateOrderDto: UpdateOrderDto,
+    user: User,
+  ): Promise<Order> {
+    const order = await this.getOrderById(id, user, '');
+    return this.orderRepository.updateOrder(
+      order,
+      updateOrderDto,
       user,
       this.feesService,
       this.cartsService,

@@ -10,6 +10,7 @@ import {
   Post,
   Body,
   UsePipes,
+  Put,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { OrdersService } from './orders.service';
@@ -18,6 +19,7 @@ import { User } from '../auth/user.entity';
 import { Order } from './order.entity';
 import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller('orders')
 @UseGuards(AuthGuard())
@@ -70,5 +72,20 @@ export class OrdersController {
       })}`,
     );
     return this.ordersService.createOrder(createOrderDto, user);
+  }
+
+  @Put('/:id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  updateOrder(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOrderDto: UpdateOrderDto,
+    @GetUser() user: User,
+  ): Promise<Order> {
+    this.logger.verbose(
+      `User "${user.username}" creating a new order. Data: ${JSON.stringify(
+        updateOrderDto,
+      )}`,
+    );
+    return this.ordersService.updateOrder(id, updateOrderDto, user);
   }
 }
