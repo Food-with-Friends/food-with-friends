@@ -1,25 +1,25 @@
 import {
-  Controller,
-  UseGuards,
-  Logger,
-  Get,
-  Query,
-  ValidationPipe,
-  ParseIntPipe,
-  Param,
-  Post,
   Body,
-  UsePipes,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  ParseIntPipe,
+  Post,
   Put,
+  Query,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { OrdersService } from './orders.service';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
-import { Order } from './order.entity';
-import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { GetOrdersFilterDto } from './dto/get-orders-filter-dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from './order.entity';
+import { OrdersService } from './orders.service';
 
 @Controller('orders')
 @UseGuards(AuthGuard())

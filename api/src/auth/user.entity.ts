@@ -33,10 +33,6 @@ export class User extends BaseEntity {
   @ManyToMany((type) => Order, (order) => order.payees)
   orders: Order[];
 
-  // TODO: Implement Cart
-  // @OneToMany((type) => Cart, (cart) => cart.user, { eager: true })
-  // carts: Cart[];
-
   toJSON(): any {
     return classToPlain(this);
   }

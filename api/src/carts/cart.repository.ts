@@ -1,10 +1,10 @@
-import { EntityRepository, Repository } from 'typeorm';
 import { Logger } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart-dto';
-import { Cart } from './cart.entity';
+import { EntityRepository, Repository } from 'typeorm';
+import { CartItem } from '../cart-items/cart-item.entity';
 import { CartItemsService } from '../cart-items/cart-items.service';
+import { Cart } from './cart.entity';
+import { CreateCartDto } from './dto/create-cart-dto';
 import { UpdateCartDto } from './dto/update-cart-dto';
-import { CartItem } from 'src/cart-items/cart-item.entity';
 
 @EntityRepository(Cart)
 export class CartRepository extends Repository<Cart> {
