@@ -8,6 +8,11 @@
 .Header-title {
     text-align: left;
     padding-left: 10px;
+    border: none;
+    background: none;
+    color: #bb86fc;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .Navigation-buttons {

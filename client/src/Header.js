@@ -1,18 +1,42 @@
 import React from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
         <div className="Header">
-            <h2 className="Header-title">Food With Friends</h2>
+            <h2 className="Header-title">
+                <Link to="/">
+                    <button className="Header-title">Food With Friends</button>
+                </Link>
+            </h2>
+
             <ul>
-                <li className="Navigation-buttons-header">
-                    <button className="Navigation-buttons">Home</button>
-                    <button className="Navigation-buttons">About</button>
-                    <button className="Navigation-buttons">Cart</button>
-                    <button className="Navigation-buttons">Profile</button>
-                    <button className="Navigation-buttons">Sign in</button>
-                </li>
+                <Link>
+                    <li className="Navigation-buttons-header">
+                        <Link to="/HomePage">
+                            <button className="Navigation-buttons">Home</button>
+                        </Link>
+                        <Link to="/AboutPage">
+                            <button className="Navigation-buttons">
+                                About
+                            </button>
+                        </Link>
+                        <Link to="/Cart">
+                            <button className="Navigation-buttons">Cart</button>
+                        </Link>
+                        <Link to="/Profile">
+                            <button className="Navigation-buttons">
+                                Profile
+                            </button>
+                        </Link>
+                        <Link to="/Signin">
+                            <button className="Navigation-buttons">
+                                Sign in
+                            </button>
+                        </Link>
+                    </li>
+                </Link>
             </ul>
         </div>
     );
