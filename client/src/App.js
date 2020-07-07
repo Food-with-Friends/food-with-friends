@@ -1,8 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-// import Cart from './Cart';
+import Cart from './Cart';
 import Header from './Header';
 import HomePage from './HomePage';
+import AboutPage from './AboutPage';
+import LandingPage from './LandingPage';
 
 // const initialItems = [
 //     { id: 1, name: 'Taco Seasoning', price: 2.25, qty: 2 },
@@ -12,11 +15,19 @@ import HomePage from './HomePage';
 
 function App() {
     return (
-        <div className="theme-dark">
-            <Header />
-            <HomePage />
-            {/* <Cart initialItems={initialItems} /> */}
-        </div>
+        <Router>
+            <div className="theme-dark">
+                <Header />
+                <Switch>
+                    <Route path="/" exact component={LandingPage} />
+                    <Route path="/HomePage" exact component={HomePage} />
+                    <Route path="/AboutPage" exact component={AboutPage} />
+                    <Route path="/Cart" exact component={Cart} />
+                    {/* <Route path="/Profile" component={Profile} /> */}
+                    {/* <Cart initialItems={initialItems} /> */}
+                </Switch>
+            </div>
+        </Router>
     );
 }
 
